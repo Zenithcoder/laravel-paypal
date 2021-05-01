@@ -1,8 +1,8 @@
 # Laravel PayPal
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/zenithcoder/paypal.svg?style=flat-square)](https://packagist.org/packages/zenithcoder/paypal)
-[![Total Downloads](https://img.shields.io/packagist/dt/zenithcoder/paypal.svg?style=flat-square)](https://packagist.org/packages/zenithcoder/paypal)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/zenithcoder/paypal.svg?style=flat-square)](https://packagist.org/packages/zenithcoder/laravel-paypal)
+[![Total Downloads](https://img.shields.io/packagist/dt/zenithcoder/paypal.svg?style=flat-square)](https://packagist.org/packages/zenithcoder/laravel-paypal)
 [![StyleCI](https://github.styleci.io/repos/43671533/shield?branch=v2.0)](https://github.styleci.io/repos/43671533?branch=v2.0)
 ![Tests](https://github.com/zenithcoder/laravel-paypal/workflows/TestsV3/badge.svg)
 
@@ -141,10 +141,11 @@ A sample form will look like so:
                     $350
                 </div>
             </p>
-            <input type="hidden" name="email" value="awonusiolajide@yahoo.com>  
-            <input type="hidden" name="orderID" value="345">
-            <input type="hidden" name="amount" value="350"> 
+            <input type="hidden" name="email" value="awonusiolajide@yahoo.com">  
+           <input type="hidden" name="orderID" value="345">
+            <input type="hidden" name="amount" value="800"> 
             <input type="hidden" name="quantity" value="3">
+            <input type="hidden" name="currency_code" value="USD">
             <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
             
             {{ csrf_field() }} {{-- works only when using laravel 5.1, 5.2 --}}
