@@ -89,7 +89,13 @@ We will post an event to the webhook URL set for your transaction's domain. If i
 ```php
 use Zenithcoder\Paypal\Paypal;
 
-  public function handlePaypalWebhook()
+  public function redirectToPaypal(Request $request)
+    {  
+        $this->processCheckout();
+        return  $this->PaypalClient()->getAuthPaymentUrl()->redirectNow();
+    }
+
+    public function handlePaypalWebhook()
     {
         $paymentDetails =  $this->PaypalClient()->getPaymentData();
 
@@ -99,7 +105,7 @@ use Zenithcoder\Paypal\Paypal;
           switch ($event_types)
             {
                 case "PAYMENT.SALE.COMPLETED":
-                    // Handle payment completed
+                    $this->completedPayment();
                     break;
                 case "BILLING.SUBSCRIPTION.PAYMENT.FAILED":
                     // Handle payment failed
@@ -115,6 +121,39 @@ use Zenithcoder\Paypal\Paypal;
                 default:
                     break;
             }
+    }
+
+    public function PaypalClient(){
+        return new Paypal();
+    }
+
+    public function completedPayment()
+    {
+        //update payment status
+    }
+
+    public function processCheckout()
+    {
+        try{
+            $user = Auth::user();
+            $subscription = Subscription::create([
+                'user_id' => Auth::user()->id,
+                'total'=> request()->query('amount')
+            ]);
+
+
+            $cartItems = json_decode( request()->query('meta'),true);
+            foreach($cartItems as $cartItem)
+            {
+                $subscription->transactions()->create([
+                    'qty' => $cartItem->qty,
+                    'total' => $cartItem->qty*$cartItem->price
+                ]);
+            }
+        } catch(\Exception $e) {
+
+            return $e->getMessage();
+        }
     }
 
 ```
