@@ -87,6 +87,8 @@ The customer arrived on the site of the payment provider and gets to choose a pa
 We will post an event to the webhook URL set for your transaction's domain. If it was a live transaction, we will post to your live webhook url and vice-versa.
 
 ```php
+use Zenithcoder\Paypal\Paypal;
+
   public function handlePaypalWebhook()
     {
         $paymentDetails =  $this->PaypalClient()->getPaymentData();
